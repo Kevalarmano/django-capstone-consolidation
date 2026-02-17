@@ -7,4 +7,3 @@ venv/
 media/
 .DS_Store
 .vscode/
-echo "docs/_build/" >> .gitignore
