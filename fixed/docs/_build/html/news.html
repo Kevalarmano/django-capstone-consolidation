@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>News App — Django News Capstone Documentation</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; }
+    nav { width: 250px; min-height: 100vh; background: #2c3e50; color: #ecf0f1; padding: 20px; box-sizing: border-box; }
+    nav h2 { font-size: 1em; color: #bdc3c7; text-transform: uppercase; }
+    nav a { display: block; color: #ecf0f1; text-decoration: none; padding: 4px 0; font-size: 0.9em; }
+    nav a:hover { color: #3498db; }
+    main { flex: 1; padding: 40px; max-width: 860px; }
+    h1 { border-bottom: 2px solid #2c3e50; padding-bottom: 10px; }
+    h2 { color: #2c3e50; margin-top: 30px; }
+    h3 { color: #34495e; }
+    code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+    pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+    .class-block { background: #f9f9f9; border-left: 4px solid #3498db; padding: 12px 16px; margin: 16px 0; border-radius: 0 4px 4px 0; }
+    .method-block { background: #fff; border-left: 4px solid #27ae60; padding: 10px 14px; margin: 10px 0 10px 20px; }
+    .docstring { color: #555; margin: 6px 0 10px 0; }
+    .module-path { color: #7f8c8d; font-size: 0.85em; }
+  </style>
+</head>
+<body>
+  <nav>
+    <h2>Django News Capstone</h2>
+    <strong>Contents</strong>
+    <a href="index.html">Home</a>
+    <a href="news.html">News App</a>
+    <a href="users.html">Users App</a>
+    <br/>
+    <strong>Indices</strong>
+    <a href="genindex.html">General Index</a>
+    <a href="py-modindex.html">Module Index</a>
+  </nav>
+  <main>
+    <h1>News App</h1>
+
+    <h2>Models</h2>
+    <p class="module-path"><code>news.models</code></p>
+    <p>Defines Category and Article models for the news capstone.</p>
+
+    <div class="class-block">
+      <strong>class</strong> <code>news.models.Category</code>
+      <p class="docstring">Represents a news category (e.g. Technology, Sport, Politics).</p>
+      <p><strong>Fields:</strong></p>
+      <ul>
+        <li><code>name</code> — CharField(max_length=100, unique=True)</li>
+        <li><code>description</code> — TextField(blank=True, null=True)</li>
+        <li><code>created_at</code> — DateTimeField(auto_now_add=True)</li>
+      </ul>
+      <div class="method-block">
+        <code>__str__()</code>
+        <p class="docstring">Returns the category name.</p>
+      </div>
+    </div>
+
+    <div class="class-block">
+      <strong>class</strong> <code>news.models.Article</code>
+      <p class="docstring">Represents a news article written by a user and belonging to a category.</p>
+      <p><strong>Fields:</strong></p>
+      <ul>
+        <li><code>title</code> — CharField(max_length=255)</li>
+        <li><code>content</code> — TextField</li>
+        <li><code>author</code> — ForeignKey(CustomUser, on_delete=CASCADE)</li>
+        <li><code>category</code> — ForeignKey(Category, on_delete=SET_NULL, null=True)</li>
+        <li><code>status</code> — CharField — choices: <code>draft</code> | <code>published</code></li>
+        <li><code>created_at</code> — DateTimeField(auto_now_add=True)</li>
+        <li><code>updated_at</code> — DateTimeField(auto_now=True)</li>
+      </ul>
+      <div class="method-block">
+        <code>__str__()</code>
+        <p class="docstring">Returns the article title.</p>
+      </div>
+    </div>
+
+    <h2>Views</h2>
+    <p class="module-path"><code>news.views</code></p>
+    <p>Provides full CRUD for Articles and Categories via the REST API.</p>
+
+    <div class="class-block">
+      <strong>class</strong> <code>news.views.CategoryListCreateView</code>
+      <p class="docstring">Handles listing all categories and creating new ones.</p>
+      <ul>
+        <li><code>GET  /api/news/categories/</code> — List all categories</li>
+        <li><code>POST /api/news/categories/</code> — Create a new category</li>
+      </ul>
+    </div>
+
+    <div class="class-block">
+      <strong>class</strong> <code>news.views.CategoryDetailView</code>
+      <p class="docstring">Handles retrieve, update, and delete operations for a single category.</p>
+      <ul>
+        <li><code>GET    /api/news/categories/&lt;id&gt;/</code> — Retrieve a category</li>
+        <li><code>PUT    /api/news/categories/&lt;id&gt;/</code> — Update a category</li>
+        <li><code>DELETE /api/news/categories/&lt;id&gt;/</code> — Delete a category</li>
+      </ul>
+    </div>
+
+    <div class="class-block">
+      <strong>class</strong> <code>news.views.ArticleListCreateView</code>
+      <p class="docstring">Handles listing all articles and creating new ones. Supports search and ordering.</p>
+      <ul>
+        <li><code>GET  /api/news/articles/</code> — List all articles (supports <code>?search=</code> and <code>?ordering=</code>)</li>
+        <li><code>POST /api/news/articles/</code> — Create a new article</li>
+      </ul>
+    </div>
+
+    <div class="class-block">
+      <strong>class</strong> <code>news.views.ArticleDetailView</code>
+      <p class="docstring">Handles retrieve, update, and delete operations for a single article.</p>
+      <ul>
+        <li><code>GET    /api/news/articles/&lt;id&gt;/</code> — Retrieve an article</li>
+        <li><code>PUT    /api/news/articles/&lt;id&gt;/</code> — Update an article</li>
+        <li><code>DELETE /api/news/articles/&lt;id&gt;/</code> — Delete an article</li>
+      </ul>
+    </div>
+
+    <h2>Serializers</h2>
+    <p class="module-path"><code>news.serializers</code></p>
+
+    <div class="class-block">
+      <strong>class</strong> <code>news.serializers.CategorySerializer</code>
+      <p class="docstring">Serializer for the Category model. Fields: id, name, description, created_at.</p>
+    </div>
+
+    <div class="class-block">
+      <strong>class</strong> <code>news.serializers.ArticleSerializer</code>
+      <p class="docstring">Serializer for the Article model. Includes read-only author_username and category_name fields. Automatically assigns the logged-in user as the article author on creation.</p>
+      <div class="method-block">
+        <code>create(validated_data)</code>
+        <p class="docstring">Automatically assigns the logged-in user as the author.</p>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

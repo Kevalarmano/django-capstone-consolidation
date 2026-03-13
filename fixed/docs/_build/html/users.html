@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Users App — Django News Capstone Documentation</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; display: flex; }
+    nav { width: 250px; min-height: 100vh; background: #2c3e50; color: #ecf0f1; padding: 20px; box-sizing: border-box; }
+    nav h2 { font-size: 1em; color: #bdc3c7; text-transform: uppercase; }
+    nav a { display: block; color: #ecf0f1; text-decoration: none; padding: 4px 0; font-size: 0.9em; }
+    nav a:hover { color: #3498db; }
+    main { flex: 1; padding: 40px; max-width: 860px; }
+    h1 { border-bottom: 2px solid #2c3e50; padding-bottom: 10px; }
+    h2 { color: #2c3e50; margin-top: 30px; }
+    h3 { color: #34495e; }
+    code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+    pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+    .class-block { background: #f9f9f9; border-left: 4px solid #3498db; padding: 12px 16px; margin: 16px 0; border-radius: 0 4px 4px 0; }
+    .method-block { background: #fff; border-left: 4px solid #27ae60; padding: 10px 14px; margin: 10px 0 10px 20px; }
+    .docstring { color: #555; margin: 6px 0 10px 0; }
+    .module-path { color: #7f8c8d; font-size: 0.85em; }
+  </style>
+</head>
+<body>
+  <nav>
+    <h2>Django News Capstone</h2>
+    <strong>Contents</strong>
+    <a href="index.html">Home</a>
+    <a href="news.html">News App</a>
+    <a href="users.html">Users App</a>
+    <br/>
+    <strong>Indices</strong>
+    <a href="genindex.html">General Index</a>
+    <a href="py-modindex.html">Module Index</a>
+  </nav>
+  <main>
+    <h1>Users App</h1>
+
+    <h2>Models</h2>
+    <p class="module-path"><code>users.models</code></p>
+    <p>Custom user model for the Django News Capstone. Extends AbstractUser to add a bio field.</p>
+
+    <div class="class-block">
+      <strong>class</strong> <code>users.models.CustomUser</code>
+      <p class="docstring">Extended user model with a bio field. Used as the AUTH_USER_MODEL for this project.</p>
+      <p><strong>Additional Fields:</strong></p>
+      <ul>
+        <li><code>bio</code> — TextField(blank=True, null=True) — A short biography of the user.</li>
+      </ul>
+      <div class="method-block">
+        <code>__str__()</code>
+        <p class="docstring">Returns the username.</p>
+      </div>
+    </div>
+
+    <h2>Views</h2>
+    <p class="module-path"><code>users.views</code></p>
+    <p>Provides user registration and user detail endpoints.</p>
+
+    <div class="class-block">
+      <strong>class</strong> <code>users.views.UserListView</code>
+      <p class="docstring">Returns a list of all registered users.</p>
+      <ul>
+        <li><code>GET /api/users/</code> — List all users</li>
+      </ul>
+    </div>
+
+    <div class="class-block">
+      <strong>class</strong> <code>users.views.UserRegisterView</code>
+      <p class="docstring">Registers a new user account.</p>
+      <ul>
+        <li><code>POST /api/users/register/</code> — Register a new user</li>
+      </ul>
+      <div class="method-block">
+        <code>create(request, *args, **kwargs)</code>
+        <p class="docstring">Validates the registration data, creates the user, and returns a success message alongside the new user's data.</p>
+      </div>
+    </div>
+
+    <div class="class-block">
+      <strong>class</strong> <code>users.views.UserDetailView</code>
+      <p class="docstring">Handles retrieve, update, and delete operations for a single user.</p>
+      <ul>
+        <li><code>GET    /api/users/&lt;id&gt;/</code> — Retrieve a user</li>
+        <li><code>PUT    /api/users/&lt;id&gt;/</code> — Update a user</li>
+        <li><code>DELETE /api/users/&lt;id&gt;/</code> — Delete a user</li>
+      </ul>
+    </div>
+
+    <h2>Serializers</h2>
+    <p class="module-path"><code>users.serializers</code></p>
+
+    <div class="class-block">
+      <strong>class</strong> <code>users.serializers.UserSerializer</code>
+      <p class="docstring">Serializer for reading user data. Excludes the password field. Fields: id, username, email, bio, date_joined.</p>
+    </div>
+
+    <div class="class-block">
+      <strong>class</strong> <code>users.serializers.UserRegisterSerializer</code>
+      <p class="docstring">Serializer for registering a new user. Accepts a write-only password field with a minimum length of 8 characters.</p>
+      <div class="method-block">
+        <code>create(validated_data)</code>
+        <p class="docstring">Creates a new CustomUser using create_user to ensure the password is properly hashed.</p>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
